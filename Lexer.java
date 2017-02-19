@@ -89,6 +89,8 @@ public class Lexer {
 			return new Token(TokenType.VAR);
 		} else if (identString.equalsIgnoreCase("end")){
 			return new Token (TokenType.END);
+		} else if (identString.equalsIgnoreCase("program")){
+			return new Token (TokenType.PROGRAM);
 		} else {
 			return new Token(TokenType.NAME, identString);
 		}
