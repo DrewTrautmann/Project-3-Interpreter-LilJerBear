@@ -46,6 +46,7 @@ public class Interpreter {
 			this.currentToken = this.program.get(this.pc);
 		}
 	}
+	
 
 
 	public int evalFactor() throws Exception {
@@ -209,6 +210,41 @@ public class Interpreter {
 
 		scan.close();
 	}
+	
+	public void evalIfStatement() throws Exception {
+		
+		this.consume(TokenType.IF);
+		int num = evalConditional();
+		
+		if(num != 0){
+			evalStatementBlock();
+		}else{
+			while(this.currentToken.type != TokenType.ENDIF){
+				this.consume(currentToken.type);
+			}
+		}
+		this.consume(TokenType.ENDIF);
+	}
+	public void evalWhileStatement() throws Exception{
+		
+		this.consume(TokenType.WHILE);
+		int num = evalConditional();
+		int beginWhile = this.pc;
+		
+		while( num != 0){
+			
+			evalStatementBlock();
+			this.pc = beginWhile;
+			
+		}
+		while(this.currentToken.type != TokenType.ENDWHILE){
+			this.consume(currentToken.type);
+		}
+		this.consume(TokenType.ENDWHILE);
+		
+		
+		
+	}
 
 
 	public void evalStatement() throws Exception {
@@ -232,6 +268,14 @@ public class Interpreter {
 
 		case PRINT:
 			this.evalPrintStatement();
+			break;
+			
+		case IF:
+			this.evalIfStatement();
+			break;
+		
+		case WHILE:
+			this.evalWhileStatement();
 			break;
 
 			// Cases corresponding to the end of blocks
