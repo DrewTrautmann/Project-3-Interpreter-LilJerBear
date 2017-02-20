@@ -265,15 +265,24 @@ public class Interpreter {
 			this.evalStatement();
 		}
 	}
+	
+	public void openProg () throws Exception {
+		this.consume (TokenType.COMMENT);	
+		this.consume(TokenType.NEWLINE);
+		this.consume(TokenType.NEWLINE);
+	}
+
 
 	public void evalProgram () throws Exception {
-	
+		this.openProg();
+		
 		this.consume (TokenType.PROGRAM);
 		this.consume(TokenType.NAME);
 		this.consume(TokenType.COLON);
 
 		this.evalStatementBlock();
 	}
+	
 
 
 	public static void main(String[] args) {
